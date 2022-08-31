@@ -162,10 +162,10 @@ void PrintResult(const AppSettings& settings, const UserData& user,
     const auto& item = settings.shebao.items[i];
     std::cout << U2A(item.name)
               << "个人 = 社保基数 * 比例 = " << user.shebao_jishu << " * "
-              << item.geren << " = " << ret.geren << std::endl;
+              << item.geren << "% = " << ret.geren << std::endl;
     std::cout << U2A(item.name)
               << "企业 = 社保基数 * 比例 = " << user.shebao_jishu << " * "
-              << item.qiye << " = " << ret.qiye << std::endl;
+              << item.qiye << "% = " << ret.qiye << std::endl;
   }
   std::cout << "五险一金个人总扣除：" << result.geren_kouchu << std::endl;
   std::cout << "五险一金企业总扣除：" << result.qiye_kouchu << std::endl;
@@ -188,6 +188,8 @@ void PrintResult(const AppSettings& settings, const UserData& user,
 }
 
 int main() {
+  std::cout.setf(std::ios::fixed);
+  std::cout.precision(2);
   try {
     auto settings = LoadAppSettings();
     while (true) {
