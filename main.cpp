@@ -83,14 +83,14 @@ AppSettings LoadAppSettings() {
   AppSettings settings;
   auto buf = ReadFileAll("appsettings.json");
   auto jv = boost::json::parse({buf.data(), buf.size()});
-  for (auto& obj : jv.at((const char*)u8"社保").as_object()) {
+  for (auto& obj : jv.at((const char*)u8"社保比例").as_object()) {
     AppSettings::SheBao::Item item;
     item.name = obj.key();
     item.geren = obj.value().at((const char*)u8"个人").to_number<float>();
     item.qiye = obj.value().at((const char*)u8"企业").to_number<float>();
     settings.shebao.items.emplace_back(std::move(item));
   }
-  for (auto& obj : jv.at((const char*)u8"税率").as_object()) {
+  for (auto& obj : jv.at((const char*)u8"税率等级").as_object()) {
     AppSettings::ShuiLv::Item item;
     item.name = obj.key();
     item.min = obj.value().at((const char*)u8"最小").to_number<float>();
@@ -167,14 +167,14 @@ void PrintResult(const AppSettings& settings, const UserData& user,
               << "企业 = 社保基数 * 比例 = " << user.shebao_jishu << " * "
               << item.qiye << "% = " << ret.qiye << std::endl;
   }
-  std::cout << "五险一金个人总扣除：" << result.geren_kouchu << std::endl;
-  std::cout << "五险一金企业总扣除：" << result.qiye_kouchu << std::endl;
-  std::cout << "需缴纳个税的部分 = 税前工资 - 起征点 - 五险一金个人扣除 - "
+  std::cout << "五险一金个人扣除：" << result.geren_kouchu << std::endl;
+  std::cout << "五险一金企业扣除：" << result.qiye_kouchu << std::endl;
+  std::cout << "需缴纳个税工资数 = 税前工资 - 起征点 - 五险一金个人扣除 - "
                "附加专项扣除 = "
             << user.shuiqian << " - " << user.qizhengdian << " - "
             << result.geren_kouchu << " - " << user.fujia_kouchu << " = "
             << result.shuiqian << std::endl;
-  std::cout << "个税阶梯等级：" << U2A(result.level.name)
+  std::cout << "个税等级：" << U2A(result.level.name)
             << "，范围=" << result.level.min << "-" << result.level.max
             << "，税率=" << result.level.rate
             << "%，速算扣除数=" << result.level.deduction << std::endl;

@@ -20,7 +20,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="appsettings.json">
+    <None Include="bin\appsettings.json">
       <Filter>源文件</Filter>
     </None>
   </ItemGroup>

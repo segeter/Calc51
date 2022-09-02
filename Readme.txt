@@ -1,1 +1,0 @@
-基数范围参考：https://www.shebaotong.com/shebaotong/calculator
